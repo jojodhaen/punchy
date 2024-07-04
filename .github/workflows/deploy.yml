@@ -37,7 +37,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         overwrite: true
-        source: ./dist/*
+        source: ./punchy-frontend/dist/*
         target: /home/jorendha/public_html/punchy-frontend
         strip_components: 1
 

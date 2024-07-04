@@ -18,10 +18,14 @@ const handleSubmit = (event: Event) => {
 axiosInstance.get('/sanctum/csrf-cookie').then((response) => {
   console.log(response.data)
 })
+
+function onTouchmove(e: TouchEvent) {
+  e.preventDefault()
+}
 </script>
 
 <template>
-  <div>
+  <div @touchmove="onTouchmove">
     <h1>Login</h1>
     <form v-on:submit="handleSubmit">
       <label for="email">Email</label>

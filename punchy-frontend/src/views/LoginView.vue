@@ -18,24 +18,6 @@ const handleSubmit = (event: Event) => {
 axiosInstance.get('/sanctum/csrf-cookie').then((response) => {
   console.log(response.data)
 })
-
-async function login() {
-  await axiosInstance.get('/sanctum/csrf-cookie')
-
-  await axiosInstance.post('/api/login', {
-    email: email.value,
-    password: password.value
-  })
-
-  await axiosInstance
-    .get('/api/user')
-    .then((response) => {
-      console.log(response.data)
-    })
-    .catch((error) => {
-      console.error(error)
-    })
-}
 </script>
 
 <template>
@@ -50,6 +32,10 @@ async function login() {
 </template>
 
 <style scoped>
+body {
+  position: fixed;
+}
+
 form {
   display: flex;
   flex-direction: column;

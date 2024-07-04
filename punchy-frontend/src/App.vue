@@ -1,23 +1,33 @@
 <script lang="ts" setup>
 import { RouterLink, RouterView } from 'vue-router'
+
+function onTouchmove(e: TouchEvent) {
+  e.preventDefault()
+}
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" height="125" src="@/assets/logo.svg" width="125" />
+  <div class="main-container" @touchmove="onTouchmove">
+    <header>
+      <img alt="Vue logo" class="logo" height="125" src="@/assets/logo.svg" width="125" />
 
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
+      <div class="wrapper">
+        <nav>
+          <RouterLink to="/">Home</RouterLink>
+          <RouterLink to="/about">About</RouterLink>
+        </nav>
+      </div>
+    </header>
 
-  <RouterView />
+    <RouterView />
+  </div>
 </template>
 
 <style scoped>
+.main-container {
+  min-height: 100dvh;
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;

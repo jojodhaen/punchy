@@ -33,7 +33,7 @@ axiosInstance.get('/sanctum/csrf-cookie').then((response) => {
 
 <style scoped>
 body {
-  position: fixed;
+  touch-action: none;
 }
 
 form {

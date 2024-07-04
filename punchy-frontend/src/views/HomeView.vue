@@ -1,9 +1,11 @@
-<script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+<script lang="ts" setup>
+import { useAuthStore } from '@/stores/auth'
+
+const user: User = useAuthStore().user ?? ({} as User)
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <h1>Welcome {{ user.first_name }}</h1>
   </main>
 </template>

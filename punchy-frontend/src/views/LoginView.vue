@@ -70,7 +70,7 @@ button {
   background-color: #ffd0d0;
   color: black;
   width: 200px;
-  margin: 0 auto;
+  margin: 1rem auto;
 }
 
 button:active {

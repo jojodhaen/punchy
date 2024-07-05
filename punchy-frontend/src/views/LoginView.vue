@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import axiosInstance from '@/axiosInstance'
+import TextField from '@/components/TextField.vue'
 import { useAuthStore } from '@/stores/auth'
 import { ref } from 'vue'
 
@@ -23,11 +24,9 @@ axiosInstance.get('/sanctum/csrf-cookie').then((response) => {
 <template>
   <h1>LOGIN</h1>
   <form v-on:submit="handleSubmit">
-    <label for="email">Email</label>
-    <input id="email" v-model="email" name="email" required type="email" />
-    <label for="password">Password</label>
-    <input id="password" v-model="password" name="password" required type="password" />
-    <button type="submit">Login</button>
+    <TextField v-model="email" name="email" />
+    <TextField v-model="password" name="wachtwoord" />
+    <button type="submit">LOG IN</button>
   </form>
 </template>
 
@@ -36,13 +35,25 @@ h1 {
   font-family: 'Bodoni Moda SC', serif;
   font-size: 3rem;
   font-weight: 1000;
+  padding-left: 2rem;
 }
 
 form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  max-width: 220px;
+  padding: 2rem;
+}
+
+button {
+  font-family: 'Bodoni Moda SC', serif;
+  font-size: 1.2rem;
+  font-weight: 1000;
+  padding: 0.5rem;
+  border: 3px solid #a87676;
+  border-radius: 0.5rem;
+  background-color: #ffd0d0;
+  color: black;
+  width: 200px;
   margin: 0 auto;
 }
 </style>

@@ -18,6 +18,13 @@ Route::middleware('web')->post('/login', function (Request $request) {
     return response()->json(['message' => 'Unauthenticated'], 401);
 });
 
+Route::post('/logout', function (Request $request) {
+    Auth::guard('web')->logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return response()->json(['message' => 'Logged out']);
+})->middleware('auth:sanctum');
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');

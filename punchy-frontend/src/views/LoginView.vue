@@ -21,7 +21,7 @@ axiosInstance.get('/sanctum/csrf-cookie').then((response) => {
 </script>
 
 <template>
-  <h1>Login</h1>
+  <h1>LOGIN</h1>
   <form v-on:submit="handleSubmit">
     <label for="email">Email</label>
     <input id="email" v-model="email" name="email" required type="email" />
@@ -32,6 +32,12 @@ axiosInstance.get('/sanctum/csrf-cookie').then((response) => {
 </template>
 
 <style scoped>
+h1 {
+  font-family: 'Bodoni Moda SC', serif;
+  font-size: 3rem;
+  font-weight: 1000;
+}
+
 form {
   display: flex;
   flex-direction: column;

@@ -7,5 +7,6 @@ const user: User = useAuthStore().user ?? ({} as User)
 <template>
   <main>
     <h1>Welcome {{ user.first_name }}</h1>
+    <button @click="useAuthStore().logout">Logout</button>
   </main>
 </template>

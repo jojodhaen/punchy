@@ -38,6 +38,7 @@ export const useAuthStore = defineStore('auth', () => {
       .then(() => {
         authenticated.value = false
         user.value = {} as User
+        router.push({ name: 'Login' })
       })
       .catch((error) => {
         console.error(error)

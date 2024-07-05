@@ -16,6 +16,10 @@ const handleSubmit = (event: Event) => {
   auth.login(email.value, password.value)
 }
 
+const handleNoAccount = () => {
+  console.log('No account?')
+}
+
 axiosInstance.get('/sanctum/csrf-cookie').then((response) => {
   console.log(response.data)
 })
@@ -33,7 +37,7 @@ axiosInstance.get('/sanctum/csrf-cookie').then((response) => {
     </div>
 
     <footer>
-      <a>Nog geen account? Maak er een!</a>
+      <a @click="handleNoAccount">Nog geen account? Maak er een!</a>
     </footer>
   </div>
 </template>
@@ -80,5 +84,12 @@ button:active {
 footer {
   display: flex;
   justify-content: center;
+
+  a {
+    font-family: 'Bodoni Moda SC', serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: black;
+  }
 }
 </style>

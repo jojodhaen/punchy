@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-defineProps(['name'])
+defineProps(['name', 'type'])
 
 const model = defineModel()
 </script>
 
 <template>
-  <label :for="name">{{ name.charAt(0).toUpperCase() + name.slice(1) }}</label>
-  <input :id="name" v-model="model" :type="name" required />
+  <label :for="type">{{ name.charAt(0).toUpperCase() + name.slice(1) }}</label>
+  <input :id="type" v-model="model" :type="type" required />
 </template>
 
 <style scoped>

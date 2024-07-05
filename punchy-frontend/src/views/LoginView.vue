@@ -22,15 +22,30 @@ axiosInstance.get('/sanctum/csrf-cookie').then((response) => {
 </script>
 
 <template>
-  <h1>LOGIN</h1>
-  <form v-on:submit="handleSubmit">
-    <TextField v-model="email" name="email" />
-    <TextField v-model="password" name="wachtwoord" />
-    <button type="submit">LOG IN</button>
-  </form>
+  <div class="container">
+    <div>
+      <h1>LOGIN</h1>
+      <form v-on:submit="handleSubmit">
+        <TextField v-model="email" name="email" type="email" />
+        <TextField v-model="password" name="wachtwoord" type="password" />
+        <button type="submit">LOG IN</button>
+      </form>
+    </div>
+
+    <footer>
+      <a>Nog geen account? Maak er een!</a>
+    </footer>
+  </div>
 </template>
 
 <style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100dvh;
+}
+
 h1 {
   font-family: 'Bodoni Moda SC', serif;
   font-size: 3rem;
@@ -55,5 +70,15 @@ button {
   color: black;
   width: 200px;
   margin: 0 auto;
+}
+
+button:active {
+  background-color: #a87676;
+  color: white;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
 }
 </style>

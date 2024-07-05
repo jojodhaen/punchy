@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import axiosInstance from '@/axiosInstance'
 import TextField from '@/components/TextField.vue'
+import router from '@/router'
 import { useAuthStore } from '@/stores/auth'
 import { ref } from 'vue'
 
@@ -18,17 +18,14 @@ const handleSubmit = (event: Event) => {
 
 const handleNoAccount = () => {
   console.log('No account?')
+  router.push('/new-user')
 }
-
-axiosInstance.get('/sanctum/csrf-cookie').then((response) => {
-  console.log(response.data)
-})
 </script>
 
 <template>
   <div class="container">
     <div>
-      <h1>LOGIN</h1>
+      <h1>PUNCHY</h1>
       <form v-on:submit="handleSubmit">
         <TextField v-model="email" name="email" type="email" />
         <TextField v-model="password" name="wachtwoord" type="password" />
@@ -90,6 +87,7 @@ footer {
     font-size: 1rem;
     font-weight: 400;
     color: black;
+    text-decoration: underline;
   }
 }
 </style>

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import CalendarDay from '@/components/CalendarDay.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const auth = useAuthStore()
@@ -11,10 +12,10 @@ const week = ['MA', 'DI', 'WO', 'DO', 'VR', 'ZA', 'ZO']
     <h1>Welkom {{ user.first_name }}</h1>
     <div class="divider"></div>
     <h2>Jouw werkweek</h2>
+    <p>01/07/2024 - 07/07/2024</p>
+    <input type="week" />
     <div class="calendar-container">
-      <div v-for="day in week" class="day">
-        <p>{{ day }}</p>
-      </div>
+      <CalendarDay v-for="day in week" :day="day" />
     </div>
 
     <button @click="auth.logout">Logout</button>
@@ -50,14 +51,5 @@ h2 {
   justify-content: space-between;
   gap: 5px;
   margin: 1rem;
-}
-
-.day {
-  background-color: #a87676;
-  height: 100px;
-  flex: 1;
-  border-radius: 0.5rem;
-  font-family: 'Inconsolata', 'Fira Mono', 'Source Code Pro', Monaco, Consolas, 'Lucida Console',
-    monospace;
 }
 </style>

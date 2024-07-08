@@ -60,3 +60,26 @@ jobs:
           source: ./punchy-backend/*
           target: /home/jorendha/public_html/punchy_backend
           strip_components: 1
+
+      - name: run laravel setup commands
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: jorendhaen.be
+          username: jorendha
+          port: 22
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          script: |
+            cd /home/jorendha/public_html/punchy_backend
+            composer install
+            echo ${{ secrets.BACKEND_ENV }} > .env
+            php artisan key:generate
+            php artisan migrate
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+            php artisan optimize
+            php artisan config:clear
+            php artisan route:clear
+            php artisan view:clear
+            php artisan optimize:clear

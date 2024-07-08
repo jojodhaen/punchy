@@ -6,82 +6,82 @@ on:
       - main
 
 jobs:
-  #  remove-previous-code:
-  #    runs-on: ubuntu-latest
-  #
-  #    steps:
-  #      - name: delete previous code
-  #        uses: appleboy/ssh-action@v1.0.3
-  #        with:
-  #          host: jorendhaen.be
-  #          username: jorendha
-  #          port: 22
-  #          key: ${{ secrets.SSH_PRIVATE_KEY }}
-  #          passphrase: ${{ secrets.SSH_PASSPHRASE }}
-  #          script: |
-  #            rm -rf public_html/punchy_backend
-  #            rm -rf public_html/punchy_frontend
-  #
-  #  deploy-frontend:
-  #    runs-on: ubuntu-latest
-  #    needs: remove-previous-code
-  #
-  #    steps:
-  #      - name: Checkout code
-  #        uses: actions/checkout@v2
-  #
-  #      - name: Setup Node.js
-  #        uses: actions/setup-node@v3
-  #        with:
-  #          node-version: '21.7.3'
-  #
-  #      - name: Install dependencies
-  #        run: |
-  #          cd punchy-frontend
-  #          npm install
-  #
-  #      - name: Build the project
-  #        run: |
-  #          cd punchy-frontend
-  #          npm run build
-  #
-  #      - name: copy file via ssh password
-  #        uses: appleboy/scp-action@v0.1.3
-  #        with:
-  #          host: jorendhaen.be
-  #          username: jorendha
-  #          port: 22
-  #          key: ${{ secrets.SSH_PRIVATE_KEY }}
-  #          passphrase: ${{ secrets.SSH_PASSPHRASE }}
-  #          overwrite: true
-  #          source: ./punchy-frontend/dist/*
-  #          target: /home/jorendha/public_html/punchy_frontend
-  #          strip_components: 2
-  #
-  #  deploy-backend:
-  #    runs-on: ubuntu-latest
-  #    needs: remove-previous-code
-  #
-  #    steps:
-  #      - name: Checkout code
-  #        uses: actions/checkout@v2
-  #
-  #      - name: copy file via ssh password
-  #        uses: appleboy/scp-action@v0.1.3
-  #        with:
-  #          host: jorendhaen.be
-  #          username: jorendha
-  #          port: 22
-  #          key: ${{ secrets.SSH_PRIVATE_KEY }}
-  #          passphrase: ${{ secrets.SSH_PASSPHRASE }}
-  #          overwrite: true
-  #          source: ./punchy-backend/*
-  #          target: /home/jorendha/public_html/punchy_backend
-  #          strip_components: 1
+  remove-previous-code:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: delete previous code
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: jorendhaen.be
+          username: jorendha
+          port: 22
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          script: |
+            rm -rf public_html/punchy_backend
+            rm -rf public_html/punchy_frontend
+
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    needs: remove-previous-code
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21.7.3'
+
+      - name: Install dependencies
+        run: |
+          cd punchy-frontend
+          npm install
+
+      - name: Build the project
+        run: |
+          cd punchy-frontend
+          npm run build
+
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          host: jorendhaen.be
+          username: jorendha
+          port: 22
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          overwrite: true
+          source: ./punchy-frontend/dist/*
+          target: /home/jorendha/public_html/punchy_frontend
+          strip_components: 2
+
+  deploy-backend:
+    runs-on: ubuntu-latest
+    needs: remove-previous-code
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          host: jorendhaen.be
+          username: jorendha
+          port: 22
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          overwrite: true
+          source: ./punchy-backend/*
+          target: /home/jorendha/public_html/punchy_backend
+          strip_components: 1
 
   run-backend-commands:
     runs-on: ubuntu-latest
-    #    needs: deploy-backend
+    needs: deploy-backend
 
     steps:
       - name: run laravel setup commands

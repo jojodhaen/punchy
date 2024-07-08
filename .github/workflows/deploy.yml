@@ -77,6 +77,10 @@ jobs:
           target: /home/jorendha/public_html/punchy_backend
           strip_components: 1
 
+  run-backend-commands:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: run laravel setup commands
         uses: appleboy/ssh-action@v1.0.3
         with:

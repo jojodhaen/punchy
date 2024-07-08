@@ -10,13 +10,18 @@ const week = ['MA', 'DI', 'WO', 'DO', 'VR', 'ZA', 'ZO']
 const clockTimeMenuButtonOpen = ref(false)
 
 const handleClockTimeMenuOpenButtonClicked = () => {
-  console.log('Add clock time')
   clockTimeMenuButtonOpen.value = !clockTimeMenuButtonOpen.value
 }
 
-const handleAddOneDayClicked = () => {
+const handleEditOneDayClicked = () => {
   if (clockTimeMenuButtonOpen.value) {
-    router.push('/add-day')
+    router.push('/edit-day')
+  }
+}
+
+const handleEditWeekClicked = () => {
+  if (clockTimeMenuButtonOpen.value) {
+    router.push('/edit-week')
   }
 }
 </script>
@@ -41,15 +46,16 @@ const handleAddOneDayClicked = () => {
       <div
         :class="{ 'clock-time-menu-option-1': clockTimeMenuButtonOpen }"
         class="clock-time-menu-option"
-        @click="handleAddOneDayClicked"
+        @click="handleEditOneDayClicked"
       >
-        <p>Eén dag toevoegen</p>
+        <p>Eén dag</p>
       </div>
       <div
         :class="{ 'clock-time-menu-option-2': clockTimeMenuButtonOpen }"
         class="clock-time-menu-option"
+        @click="handleEditWeekClicked"
       >
-        <p>Meerdere dagen toevoegen</p>
+        <p>Meerdere dagen</p>
       </div>
       <img
         :class="{ 'plus-opened': clockTimeMenuButtonOpen }"

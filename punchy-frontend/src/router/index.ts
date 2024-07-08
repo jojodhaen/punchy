@@ -1,9 +1,10 @@
 import { useAuthStore } from '@/stores/auth'
-import AddDayView from '@/views/AddDayView.vue'
-import LoginView from '@/views/LoginView.vue'
-import NewUserView from '@/views/NewUserView.vue'
+import EditDayView from '@/views/authenticated/EditDayView.vue'
+import EditWeekView from '@/views/authenticated/EditWeekView.vue'
+import LoginView from '@/views/unauthenticated/LoginView.vue'
+import NewUserView from '@/views/unauthenticated/NewUserView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import HomeView from '../views/authenticated/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,20 +34,17 @@ const router = createRouter({
       }
     },
     {
-      path: '/add-day',
+      path: '/edit-day',
       name: 'AddDay',
-      component: AddDayView,
+      component: EditDayView,
       meta: {
         needsAuth: true
       }
     },
     {
-      path: '/about',
-      name: 'About',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
+      path: '/edit-week',
+      name: 'AddWeek',
+      component: EditWeekView,
       meta: {
         needsAuth: true
       }

@@ -93,7 +93,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
-            cd home/jorendha/public_html/punchy_backend
+            cd /public_html/punchy_backend
             composer install
             echo ${{ secrets.BACKEND_ENV }} > .env
             php artisan key:generate

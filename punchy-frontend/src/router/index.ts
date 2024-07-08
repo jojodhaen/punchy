@@ -1,4 +1,5 @@
 import { useAuthStore } from '@/stores/auth'
+import AddDayView from '@/views/AddDayView.vue'
 import LoginView from '@/views/LoginView.vue'
 import NewUserView from '@/views/NewUserView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -29,6 +30,14 @@ const router = createRouter({
       component: NewUserView,
       meta: {
         needsAuth: false
+      }
+    },
+    {
+      path: '/add-day',
+      name: 'AddDay',
+      component: AddDayView,
+      meta: {
+        needsAuth: true
       }
     },
     {

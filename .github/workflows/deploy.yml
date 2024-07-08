@@ -40,3 +40,16 @@ jobs:
           source: ./punchy-frontend/dist/*
           target: /home/jorendha/public_html/punchy_frontend
           strip_components: 2
+
+      - name: copy laravel to server
+        uses: appleboy/scp-action@0.1.3
+        with:
+          host: jorendhaen.be
+          username: jorendha
+          port: 22
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          overwrite: true
+          source: ./punchy-backend/*
+          target: /home/jorendha/public_html/punchy_backend
+          strip_components: 1

@@ -15,7 +15,9 @@ const handleClockTimeMenuOpenButtonClicked = () => {
 }
 
 const handleAddOneDayClicked = () => {
-  router.push('/add-day')
+  if (clockTimeMenuButtonOpen.value) {
+    router.push('/add-day')
+  }
 }
 </script>
 

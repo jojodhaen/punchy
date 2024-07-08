@@ -60,7 +60,7 @@ jobs:
 
   deploy-backend:
     runs-on: ubuntu-latest
-    needs: delete-previous-code
+    needs: remove-previous-code
 
     steps:
       - name: Checkout code

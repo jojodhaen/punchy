@@ -48,6 +48,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: delete previous laravel
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: jorendhaen.be
+          username: jorendha
+          port: 22
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          script: |
+            rm -rf public_html/punchy_backend
+
       - name: copy file via ssh password
         uses: appleboy/scp-action@v0.1.3
         with:

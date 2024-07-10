@@ -2,7 +2,7 @@
 import { RouterView } from 'vue-router'
 
 function onTouchmove(e: TouchEvent) {
-  e.preventDefault()
+  // e.preventDefault()
 }
 </script>
 

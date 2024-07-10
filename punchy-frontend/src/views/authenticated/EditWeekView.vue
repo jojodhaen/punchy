@@ -1,7 +1,31 @@
 <script lang="ts" setup>
+import WeekdayClockTime from '@/components/WeekdayClockTime.vue'
 import VueDatePicker from '@vuepic/vue-datepicker'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import '@vuepic/vue-datepicker/dist/main.css'
+
+const startEndDate = ref<[Date, Date]>([getWeekday(new Date(), 1), getWeekday(new Date(), 7)])
+const weekDates = ref<[Date, Date, Date, Date, Date, Date, Date]>([
+  getWeekday(startEndDate.value[0], 1),
+  getWeekday(startEndDate.value[0], 2),
+  getWeekday(startEndDate.value[0], 3),
+  getWeekday(startEndDate.value[0], 4),
+  getWeekday(startEndDate.value[0], 5),
+  getWeekday(startEndDate.value[0], 6),
+  getWeekday(startEndDate.value[0], 7)
+])
+
+watch(startEndDate, () => {
+  weekDates.value = [
+    getWeekday(startEndDate.value[0], 1),
+    getWeekday(startEndDate.value[0], 2),
+    getWeekday(startEndDate.value[0], 3),
+    getWeekday(startEndDate.value[0], 4),
+    getWeekday(startEndDate.value[0], 5),
+    getWeekday(startEndDate.value[0], 6),
+    getWeekday(startEndDate.value[0], 7)
+  ]
+})
 
 function getWeekday(d: Date, weekday: number) {
   d = new Date(d)
@@ -9,31 +33,39 @@ function getWeekday(d: Date, weekday: number) {
     diff = d.getDate() - day + (day == 0 ? -6 : weekday)
   return new Date(d.setDate(diff))
 }
-
-const date = ref<[Date, Date]>([getWeekday(new Date(), 1), getWeekday(new Date(), 7)])
 </script>
 
 <template>
-  <h1>Werktijden</h1>
-  <div class="divider"></div>
-  <div class="calendar-picker-container">
-    <VueDatePicker
-      v-model="date"
-      :clearable="false"
-      :enable-time-picker="false"
-      auto-apply
-      auto-close
-      cancelText="annuleren"
-      class="week-selector"
-      locale="nl-BE"
-      selectText="selecteren"
-      week-picker
-    />
-  </div>
-  <p>{{ date }}</p>
+  <main>
+    <h1>Werktijden</h1>
+    <div class="divider"></div>
+    <div class="calendar-picker-container">
+      <VueDatePicker
+        v-model="startEndDate"
+        :clearable="false"
+        :enable-time-picker="false"
+        auto-apply
+        auto-close
+        cancelText="annuleren"
+        class="week-selector"
+        locale="nl-BE"
+        selectText="selecteren"
+        week-picker
+      />
+    </div>
+    <div class="weekdays">
+      <WeekdayClockTime v-for="day in weekDates" :day="day" />
+    </div>
+  </main>
 </template>
 
 <style>
+main {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
 h1 {
   font-family: 'Bodoni Moda SC', serif;
   font-size: 2rem;
@@ -53,6 +85,17 @@ h1 {
 .week-selector {
   width: 150px;
   margin-left: 1rem;
+  margin-bottom: 1rem;
+}
+
+.weekdays {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
 }
 
 .dp__theme_light {

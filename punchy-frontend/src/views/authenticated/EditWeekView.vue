@@ -53,25 +53,17 @@ h1 {
 .week-selector {
   width: 150px;
   margin-left: 1rem;
+}
 
+.dp__theme_light {
   --dp-background-color: #ffd0d0;
   --dp-primary-color: #a87676;
   --dp-icon-color: #a87676;
   --dp-border-color: #a87676;
   --dp-border-color-focus: #a87676;
   --dp-border-radius: 10px;
-}
-
-.dp__arrow_top {
-  background-color: #ffd0d0;
-  border-top: 2px solid #a87676;
-  border-right: 2px solid #a87676;
-}
-
-.dp__menu {
-  background-color: #ffd0d0;
-  border: 2px solid #a87676;
-  border-radius: 10px;
-  overflow: hidden;
+  --dp-menu-border-color: #a87676;
+  --dp-hover-color: transparent;
+  --dp-secondary-color: #ca8787;
 }
 </style>

@@ -16,11 +16,24 @@ const date = ref<[Date, Date]>([getWeekday(new Date(), 1), getWeekday(new Date()
 <template>
   <h1>Werktijden</h1>
   <div class="divider"></div>
-  <VueDatePicker v-model="date" :enable-time-picker="false" class="week-picker" week-picker />
+  <div class="calendar-picker-container">
+    <VueDatePicker
+      v-model="date"
+      :clearable="false"
+      :enable-time-picker="false"
+      auto-apply
+      auto-close
+      cancelText="annuleren"
+      class="week-selector"
+      locale="nl-BE"
+      selectText="selecteren"
+      week-picker
+    />
+  </div>
   <p>{{ date }}</p>
 </template>
 
-<style scoped>
+<style>
 h1 {
   font-family: 'Bodoni Moda SC', serif;
   font-size: 2rem;
@@ -37,7 +50,7 @@ h1 {
   margin: 1rem;
 }
 
-.week-picker {
+.week-selector {
   width: 150px;
   margin-left: 1rem;
 
@@ -47,8 +60,18 @@ h1 {
   --dp-border-color: #a87676;
   --dp-border-color-focus: #a87676;
   --dp-border-radius: 10px;
+}
 
-  --dp-menu-background-color: #ffd0d0;
-  --dp-menu-border-color: #a87676;
+.dp__arrow_top {
+  background-color: #ffd0d0;
+  border-top: 2px solid #a87676;
+  border-right: 2px solid #a87676;
+}
+
+.dp__menu {
+  background-color: #ffd0d0;
+  border: 2px solid #a87676;
+  border-radius: 10px;
+  overflow: hidden;
 }
 </style>

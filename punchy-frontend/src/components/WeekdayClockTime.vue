@@ -108,7 +108,7 @@ async function postClockTime() {
   }
 
   .time-selector {
-    width: 100px;
+    width: 110px;
   }
 
   .label {

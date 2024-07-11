@@ -4,12 +4,12 @@ defineProps(['day'])
 
 <template>
   <div class="day">
-    <p class="day-name">{{ day }}</p>
+    <p class="day-name">{{ day[0].toLocaleString('nl-BE', { weekday: 'short' }).toUpperCase() }}</p>
 
-    <p class="date">01/07</p>
+    <p class="date">{{ day[0].toLocaleDateString().slice(0, 5) }}</p>
     <div>
-      <p class="hours">09:30</p>
-      <p class="hours">18:00</p>
+      <p class="hours">{{ day[1].slice(0, 5) }}</p>
+      <p class="hours">{{ day[2].slice(0, 5) }}</p>
     </div>
   </div>
 </template>

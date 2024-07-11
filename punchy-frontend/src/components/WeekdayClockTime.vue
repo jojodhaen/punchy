@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import axiosInstance from '@/axiosInstance'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 
 let props = defineProps(['day'])
 
@@ -14,6 +14,9 @@ const endTime = ref<{ hours: number; minutes: number }>({
 })
 const isValid = ref(false)
 
+const start = startTime.value.hours * 60 + Number(startTime.value.minutes)
+const end = endTime.value.hours * 60 + Number(endTime.value.minutes)
+isValid.value = start <= end
 
 function getLocaleWeekday(date: Date) {
   return date.toLocaleString('nl-BE', { weekday: 'long' })
@@ -37,6 +40,15 @@ function calculateWorkedHours() {
 }
 
 async function postClockTime() {
+  const start = startTime.value.hours * 60 + Number(startTime.value.minutes)
+  const end = endTime.value.hours * 60 + Number(endTime.value.minutes)
+  isValid.value = start <= end
+  console.log(start <= end)
+
+  if (start > end) {
+    return
+  }
+
   await axiosInstance
     .post('api/clocktimes', {
       date: props.day[0],
@@ -52,12 +64,11 @@ async function postClockTime() {
 </script>
 
 <template>
-  <div class="day-container">
+  <div :class="{ 'invalid-time': !isValid }" class="day-container">
     <div>
       <h2>{{ getLocaleWeekday(new Date(day[0])) }}</h2>
       <p>{{ new Date(day[0]).toLocaleDateString() }}</p>
       <p>Tot. {{ calculateWorkedHours() }}</p>
-      <p>{{ isValid }}</p>
     </div>
     <div class="time-selector-container">
       <div>
@@ -135,5 +146,9 @@ async function postClockTime() {
   .dp__theme_light {
     --dp-font-size: 0.8rem;
   }
+}
+
+.invalid-time {
+  border: 2px solid red !important;
 }
 </style>

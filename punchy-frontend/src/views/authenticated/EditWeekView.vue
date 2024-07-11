@@ -67,7 +67,7 @@ getClockTimes()
     <div v-if="!loading" class="weekdays">
       <WeekdayClockTime v-for="day in weekDates" :day="day" />
     </div>
-    <div v-if="loading">Loading</div>
+    <div v-else>Loading</div>
   </main>
 </template>
 

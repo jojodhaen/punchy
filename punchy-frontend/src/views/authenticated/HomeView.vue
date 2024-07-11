@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import axiosInstance from '@/axiosInstance'
 import CalendarDay from '@/components/CalendarDay.vue'
 import router from '@/router'
 import { useAuthStore } from '@/stores/auth'
@@ -8,6 +9,11 @@ const auth = useAuthStore()
 const user: User = auth.user ?? ({} as User)
 const week = ['MA', 'DI', 'WO', 'DO', 'VR', 'ZA', 'ZO']
 const clockTimeMenuButtonOpen = ref(false)
+const now = new Date().setHours(0, 0, 0, 0)
+
+const startEndDate = ref<[Date, Date]>([getWeekday(new Date(now), 1), getWeekday(new Date(now), 7)])
+const weekDates = ref()
+const loading = ref(false)
 
 const handleClockTimeMenuOpenButtonClicked = () => {
   clockTimeMenuButtonOpen.value = !clockTimeMenuButtonOpen.value
@@ -24,6 +30,35 @@ const handleEditWeekClicked = () => {
     router.push('/edit-week')
   }
 }
+
+function getWeekday(d: Date, weekday: number) {
+  d = new Date(d)
+  let day = d.getDay(),
+    diff = d.getDate() - day + (day == 0 ? -6 : weekday)
+  return new Date(d.setDate(diff))
+}
+
+async function getClockTimes() {
+  weekDates.value = []
+  loading.value = true
+
+  await axiosInstance
+    .get(`api/clocktimes/${startEndDate.value[0].toISOString()}`)
+    .then((response) => {
+      weekDates.value = response.data.map((day: Day) => {
+        return [
+          new Date(day.date),
+          day.start_time ?? new Date(day.date).toTimeString().slice(0, 8),
+          day.end_time ?? new Date(day.date).toTimeString().slice(0, 8)
+        ]
+      })
+    })
+    .finally(() => {
+      loading.value = false
+    })
+}
+
+getClockTimes()
 </script>
 
 <template>
@@ -33,8 +68,11 @@ const handleEditWeekClicked = () => {
     <h2>Jouw werkweek</h2>
     <p class="date-viewer">01/07/2024 - 07/07/2024</p>
     <input type="week" />
-    <div class="calendar-container">
-      <CalendarDay v-for="day in week" :day="day" />
+    <div v-if="!loading" class="calendar-container">
+      <CalendarDay v-for="day in weekDates" :day="day" />
+    </div>
+    <div v-else>
+      <p>Loading...</p>
     </div>
 
     <button @click="auth.logout">Logout</button>

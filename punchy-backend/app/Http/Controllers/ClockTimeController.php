@@ -19,9 +19,14 @@ class ClockTimeController extends Controller
         }
 
         return collect($weekDates)->map(function ($weekDate) {
-            return ClockTime::firstOrCreate([
+            $clocktime = ClockTime::firstOrCreate([
                 'date' => $weekDate,
                 'user_id' => Auth::id(),
+            ]);
+            return collect([
+                "date" => $clocktime->date,
+                "start_time" => $clocktime->start_time,
+                "end_time" => $clocktime->end_time,
             ]);
         });
     }

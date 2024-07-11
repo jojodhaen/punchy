@@ -25,7 +25,7 @@ async function getClockTimes() {
   await axiosInstance
     .get(`api/clocktimes/${startEndDate.value[0].toISOString()}`)
     .then((response) => {
-      weekDates.value = response.data.map((day: any) => {
+      weekDates.value = response.data.map((day: Day) => {
         return [
           new Date(day.date),
           day.start_time ?? new Date(day.date).toTimeString().slice(0, 8),
@@ -60,6 +60,9 @@ getClockTimes()
         week-picker
         @update:model-value="getClockTimes"
       />
+      <div class="save-button">
+        <p>Opslaan</p>
+      </div>
     </div>
     <div v-if="!loading" class="weekdays">
       <WeekdayClockTime v-for="day in weekDates" :day="day" />
@@ -91,10 +94,33 @@ h1 {
   margin: 1rem;
 }
 
+.calendar-picker-container {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
 .week-selector {
   width: 150px;
-  margin-left: 1rem;
-  margin-bottom: 1rem;
+}
+
+.save-button {
+  flex-grow: 1;
+  border: 1px solid #a87676;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+
+  p {
+    padding: 0;
+    margin: auto 0;
+    font-family: 'Montserrat', serif;
+    font-weight: 400;
+  }
 }
 
 .weekdays {

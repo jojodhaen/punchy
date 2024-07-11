@@ -1,31 +1,15 @@
 <script lang="ts" setup>
+import axiosInstance from '@/axiosInstance'
 import WeekdayClockTime from '@/components/WeekdayClockTime.vue'
 import VueDatePicker from '@vuepic/vue-datepicker'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import '@vuepic/vue-datepicker/dist/main.css'
 
-const startEndDate = ref<[Date, Date]>([getWeekday(new Date(), 1), getWeekday(new Date(), 7)])
-const weekDates = ref<[Date, Date, Date, Date, Date, Date, Date]>([
-  getWeekday(startEndDate.value[0], 1),
-  getWeekday(startEndDate.value[0], 2),
-  getWeekday(startEndDate.value[0], 3),
-  getWeekday(startEndDate.value[0], 4),
-  getWeekday(startEndDate.value[0], 5),
-  getWeekday(startEndDate.value[0], 6),
-  getWeekday(startEndDate.value[0], 7)
-])
+const now = new Date().setHours(0, 0, 0, 0)
 
-watch(startEndDate, () => {
-  weekDates.value = [
-    getWeekday(startEndDate.value[0], 1),
-    getWeekday(startEndDate.value[0], 2),
-    getWeekday(startEndDate.value[0], 3),
-    getWeekday(startEndDate.value[0], 4),
-    getWeekday(startEndDate.value[0], 5),
-    getWeekday(startEndDate.value[0], 6),
-    getWeekday(startEndDate.value[0], 7)
-  ]
-})
+const startEndDate = ref<[Date, Date]>([getWeekday(new Date(now), 1), getWeekday(new Date(now), 7)])
+const weekDates = ref()
+const loading = ref(false)
 
 function getWeekday(d: Date, weekday: number) {
   d = new Date(d)
@@ -33,6 +17,28 @@ function getWeekday(d: Date, weekday: number) {
     diff = d.getDate() - day + (day == 0 ? -6 : weekday)
   return new Date(d.setDate(diff))
 }
+
+async function getClockTimes() {
+  weekDates.value = []
+  loading.value = true
+
+  await axiosInstance
+    .get(`api/clocktimes/${startEndDate.value[0].toISOString()}`)
+    .then((response) => {
+      weekDates.value = response.data.map((day: any) => {
+        return [
+          new Date(day.date),
+          day.start_time ?? new Date(day.date).toTimeString().slice(0, 8),
+          day.end_time ?? new Date(day.date).toTimeString().slice(0, 8)
+        ]
+      })
+    })
+    .finally(() => {
+      loading.value = false
+    })
+}
+
+getClockTimes()
 </script>
 
 <template>
@@ -50,12 +56,15 @@ function getWeekday(d: Date, weekday: number) {
         class="week-selector"
         locale="nl-BE"
         selectText="selecteren"
+        timezone="Europe/Brussels"
         week-picker
+        @update:model-value="getClockTimes"
       />
     </div>
-    <div class="weekdays">
+    <div v-if="!loading" class="weekdays">
       <WeekdayClockTime v-for="day in weekDates" :day="day" />
     </div>
+    <div v-if="loading">Loading</div>
   </main>
 </template>
 

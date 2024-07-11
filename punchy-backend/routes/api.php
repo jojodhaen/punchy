@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClockTimeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -28,3 +29,11 @@ Route::post('/logout', function (Request $request) {
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
+Route::get('/clocktimes/{date}', [ClockTimeController::class, 'getClockTimes'])->middleware('auth:sanctum');
+
+Route::post('/clocktimes', [ClockTimeController::class, 'setClockTime'])
+    ->middleware('auth:sanctum');
+
+Route::get('/worked-hours/{weekNumber}', [ClockTimeController::class, 'getWorkedHours'])
+    ->middleware('auth:sanctum');

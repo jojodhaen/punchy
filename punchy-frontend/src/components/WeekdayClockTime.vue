@@ -1,21 +1,48 @@
 <script lang="ts" setup>
+import axiosInstance from '@/axiosInstance'
 import { ref } from 'vue'
 
-defineProps(['day'])
+let props = defineProps(['day'])
 
-const startTime = ref<{ hours: number; minutes: number }>()
-const endTime = ref<{ hours: number; minutes: number }>()
+const startTime = ref<{ hours: number; minutes: number }>({
+  hours: props.day[1].slice(0, 2),
+  minutes: props.day[1].slice(3, 5)
+})
+const endTime = ref<{ hours: number; minutes: number }>({
+  hours: props.day[2].slice(0, 2),
+  minutes: props.day[2].slice(3, 5)
+})
 
 function getLocaleWeekday(date: Date) {
   return date.toLocaleString('nl-BE', { weekday: 'long' })
+}
+
+function formatTime(hours: number, minutes: number) {
+  const formattedMinutes = minutes.toString().padStart(2, '0')
+  const formattedHours = hours.toString().padStart(2, '0')
+  return `${formattedHours}:${formattedMinutes}`
+}
+
+async function postClockTime() {
+  await axiosInstance
+    .post('api/clocktimes', {
+      date: props.day[0],
+      start_time: startTime.value
+        ? formatTime(startTime.value.hours, startTime.value.minutes)
+        : null,
+      end_time: endTime.value ? formatTime(endTime.value.hours, endTime.value.minutes) : null
+    })
+    .then((response) => {
+      console.log(response.data)
+    })
 }
 </script>
 
 <template>
   <div class="day-container">
     <div>
-      <h2>{{ getLocaleWeekday(new Date(day)) }}</h2>
-      <p>{{ new Date(day).toLocaleDateString() }}</p>
+      <h2>{{ getLocaleWeekday(new Date(day[0])) }}</h2>
+      <p>{{ new Date(day[0]).toLocaleDateString() }}</p>
     </div>
     <div class="time-selector-container">
       <div>
@@ -28,6 +55,7 @@ function getLocaleWeekday(date: Date) {
           locale="nl-BE"
           select-text="selecteren"
           time-picker
+          @update:model-value="postClockTime"
         />
       </div>
       <div>
@@ -40,6 +68,7 @@ function getLocaleWeekday(date: Date) {
           locale="nl-BE"
           select-text="selecteren"
           time-picker
+          @update:model-value="postClockTime"
         />
       </div>
     </div>

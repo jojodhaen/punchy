@@ -43,7 +43,7 @@ const router = createRouter({
     },
     {
       path: '/edit-week',
-      name: 'AddWeek',
+      name: 'EditWeek',
       component: EditWeekView,
       meta: {
         needsAuth: true

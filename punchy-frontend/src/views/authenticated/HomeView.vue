@@ -3,33 +3,17 @@ import axiosInstance from '@/axiosInstance'
 import CalendarDay from '@/components/CalendarDay.vue'
 import router from '@/router'
 import { useAuthStore } from '@/stores/auth'
+import VueDatePicker from '@vuepic/vue-datepicker'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const auth = useAuthStore()
 const user: User = auth.user ?? ({} as User)
-const week = ['MA', 'DI', 'WO', 'DO', 'VR', 'ZA', 'ZO']
-const clockTimeMenuButtonOpen = ref(false)
 const now = new Date().setHours(0, 0, 0, 0)
 
 const startEndDate = ref<[Date, Date]>([getWeekday(new Date(now), 1), getWeekday(new Date(now), 7)])
 const weekDates = ref()
 const loading = ref(false)
-
-const handleClockTimeMenuOpenButtonClicked = () => {
-  clockTimeMenuButtonOpen.value = !clockTimeMenuButtonOpen.value
-}
-
-const handleEditOneDayClicked = () => {
-  if (clockTimeMenuButtonOpen.value) {
-    router.push('/edit-day')
-  }
-}
-
-const handleEditWeekClicked = () => {
-  if (clockTimeMenuButtonOpen.value) {
-    router.push('/edit-week')
-  }
-}
 
 function getWeekday(d: Date, weekday: number) {
   d = new Date(d)
@@ -65,9 +49,26 @@ getClockTimes()
   <main>
     <h1>Welkom {{ user.first_name }}</h1>
     <div class="divider"></div>
-    <h2>Jouw werkweek</h2>
-    <p class="date-viewer">01/07/2024 - 07/07/2024</p>
-    <input type="week" />
+    <h2>Weekoverzicht</h2>
+    <div class="calendar-picker-container">
+      <VueDatePicker
+        v-model="startEndDate"
+        :clearable="false"
+        :enable-time-picker="false"
+        auto-apply
+        auto-close
+        cancelText="annuleren"
+        class="week-selector"
+        locale="nl-BE"
+        selectText="selecteren"
+        timezone="Europe/Brussels"
+        week-picker
+        @update:model-value="getClockTimes"
+      />
+      <div class="edit-button" @click="router.replace('edit-week')">
+        <p>Aanpassen</p>
+      </div>
+    </div>
     <div v-if="!loading" class="calendar-container">
       <CalendarDay v-for="day in weekDates" :day="day" />
     </div>
@@ -77,30 +78,37 @@ getClockTimes()
 
     <button @click="auth.logout">Logout</button>
 
-    <div
-      :class="{ 'clock-time-menu-open': clockTimeMenuButtonOpen }"
-      class="open-clock-time-menu-button"
-    >
-      <div
-        :class="{ 'clock-time-menu-option-1': clockTimeMenuButtonOpen }"
-        class="clock-time-menu-option"
-        @click="handleEditOneDayClicked"
-      >
-        <p>Eén dag</p>
+    <div class="bottom-navigation-container">
+      <div class="bottom-navigation-button">
+        <OhVueIcon
+          v-if="useRouter().currentRoute.value.name == 'Home'"
+          name="md-home"
+          scale="1.8"
+        />
+        <OhVueIcon v-else name="md-home-outlined" scale="1.8" />
       </div>
-      <div
-        :class="{ 'clock-time-menu-option-2': clockTimeMenuButtonOpen }"
-        class="clock-time-menu-option"
-        @click="handleEditWeekClicked"
-      >
-        <p>Meerdere dagen</p>
+
+      <div class="bottom-navigation-button">
+        <OhVueIcon name="fa-business-time" scale="1.9" />
       </div>
-      <img
-        :class="{ 'plus-opened': clockTimeMenuButtonOpen }"
-        alt="Add"
-        src="@/assets/plus.png"
-        @click="handleClockTimeMenuOpenButtonClicked"
-      />
+
+      <div class="bottom-navigation-button">
+        <OhVueIcon
+          v-if="useRouter().currentRoute.value.name == 'EditWeek'"
+          name="md-editcalendar"
+          scale="1.7"
+        />
+        <OhVueIcon v-else name="md-editcalendar-outlined" scale="1.7" />
+      </div>
+
+      <div class="bottom-navigation-button">
+        <OhVueIcon
+          v-if="useRouter().currentRoute.value.name == 'Profile'"
+          name="md-accountcircle"
+          scale="1.8"
+        />
+        <OhVueIcon v-else name="md-accountcircle-outlined" scale="1.8" />
+      </div>
     </div>
   </main>
 </template>
@@ -136,79 +144,54 @@ h2 {
   margin: 1rem;
 }
 
-.date-viewer {
-  text-align: center;
-}
-
-.open-clock-time-menu-button {
-  border-radius: 28px;
-  width: 50px;
-  height: 50px;
-  margin: 0;
-  position: fixed;
-  bottom: 5vw;
-  right: 5vw;
-  border: 3px solid #a87676;
-  background-color: #ffd0d0;
-  transition-duration: 0.3s;
-  transition-delay: 0.2s;
-
-  img {
-    width: 30px;
-    height: 30px;
-    padding: 10px;
-    transition-duration: 0.3s;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-  }
-}
-
-.plus-opened {
-  transform: rotate(-45deg) scale(0.7);
-}
-
-.clock-time-menu-open {
-  width: 90vw;
-  height: 150px;
-  transition-duration: 0.3s;
-  transition-delay: 0s;
-}
-
-.clock-time-menu-option {
-  opacity: 0;
-  transition-duration: 0.2s;
-  border: 2px solid #a87676;
-  border-radius: 20px;
-  margin: 8px 0 4px 8px;
-  height: 59px;
-  width: calc(90vw - 65px);
+.calendar-picker-container {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  gap: 0.5rem;
+}
+
+.week-selector {
+  width: 130px;
+}
+
+.edit-button {
+  flex-grow: 1;
+  border: 1px solid #a87676;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
 
   p {
-    margin: 0 0 0 10px;
     padding: 0;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 800;
-  }
-
-  &:active {
-    background-color: #a87676;
-    color: white;
-    transition-delay: 0s;
+    margin: auto 0;
+    font-family: 'Montserrat', serif;
+    font-weight: 400;
   }
 }
 
-.clock-time-menu-option-1 {
-  opacity: 1;
-  transition-delay: 0.3s;
-  transition-duration: 0.2s;
+.bottom-navigation-container {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: #e1acac;
+  height: 80px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
-.clock-time-menu-option-2 {
-  opacity: 1;
-  transition-delay: 0.4s;
-  transition-duration: 0.2s;
+.bottom-navigation-button {
+  width: 25%;
+  height: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

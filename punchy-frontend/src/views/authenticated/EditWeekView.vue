@@ -76,6 +76,7 @@ main {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  margin-bottom: 80px;
 }
 
 h1 {

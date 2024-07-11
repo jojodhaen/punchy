@@ -5,7 +5,6 @@ import router from '@/router'
 import { useAuthStore } from '@/stores/auth'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 
 const auth = useAuthStore()
 const user: User = auth.user ?? ({} as User)
@@ -77,43 +76,14 @@ getClockTimes()
     </div>
 
     <button @click="auth.logout">Logout</button>
-
-    <div class="bottom-navigation-container">
-      <div class="bottom-navigation-button">
-        <OhVueIcon
-          v-if="useRouter().currentRoute.value.name == 'Home'"
-          name="md-home"
-          scale="1.8"
-        />
-        <OhVueIcon v-else name="md-home-outlined" scale="1.8" />
-      </div>
-
-      <div class="bottom-navigation-button">
-        <OhVueIcon name="fa-business-time" scale="1.9" />
-      </div>
-
-      <div class="bottom-navigation-button">
-        <OhVueIcon
-          v-if="useRouter().currentRoute.value.name == 'EditWeek'"
-          name="md-editcalendar"
-          scale="1.7"
-        />
-        <OhVueIcon v-else name="md-editcalendar-outlined" scale="1.7" />
-      </div>
-
-      <div class="bottom-navigation-button">
-        <OhVueIcon
-          v-if="useRouter().currentRoute.value.name == 'Profile'"
-          name="md-accountcircle"
-          scale="1.8"
-        />
-        <OhVueIcon v-else name="md-accountcircle-outlined" scale="1.8" />
-      </div>
-    </div>
   </main>
 </template>
 
 <style scoped>
+main {
+  margin: 0;
+}
+
 h1 {
   font-family: 'Bodoni Moda SC', serif;
   font-size: 2rem;
@@ -171,27 +141,5 @@ h2 {
     font-family: 'Montserrat', serif;
     font-weight: 400;
   }
-}
-
-.bottom-navigation-container {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  background-color: #e1acac;
-  height: 80px;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
-
-.bottom-navigation-button {
-  width: 25%;
-  height: 70%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 </style>

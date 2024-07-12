@@ -1,6 +1,6 @@
 import { useAuthStore } from '@/stores/auth'
-import EditDayView from '@/views/authenticated/EditDayView.vue'
 import EditWeekView from '@/views/authenticated/EditWeekView.vue'
+import HoursOverviewView from '@/views/authenticated/HoursOverviewView.vue'
 import LoginView from '@/views/unauthenticated/LoginView.vue'
 import NewUserView from '@/views/unauthenticated/NewUserView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -9,14 +9,6 @@ import HomeView from '../views/authenticated/HomeView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/',
-      name: 'Home',
-      component: HomeView,
-      meta: {
-        needsAuth: true
-      }
-    },
     {
       path: '/login',
       name: 'Login',
@@ -34,9 +26,17 @@ const router = createRouter({
       }
     },
     {
-      path: '/edit-day',
-      name: 'AddDay',
-      component: EditDayView,
+      path: '/',
+      name: 'Home',
+      component: HomeView,
+      meta: {
+        needsAuth: true
+      }
+    },
+    {
+      path: '/hours-overview',
+      name: 'HoursOverview',
+      component: HoursOverviewView,
       meta: {
         needsAuth: true
       }

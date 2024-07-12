@@ -6,7 +6,6 @@ import { ref } from 'vue'
 import '@vuepic/vue-datepicker/dist/main.css'
 
 const now = new Date().setHours(0, 0, 0, 0)
-
 const startEndDate = ref<[Date, Date]>([getWeekday(new Date(now), 1), getWeekday(new Date(now), 7)])
 const weekDates = ref()
 const loading = ref(false)

@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\API\GetWeeklyClockTimesController;
-use App\Http\Controllers\API\SetWeeklyClockTimesController;
+use App\Http\Controllers\API\ClockTimes\GetWeeklyClockTimesController;
+use App\Http\Controllers\API\ClockTimes\SetWeeklyClockTimesController;
+use App\Http\Controllers\API\WorkedHours\GetWeeklyWorkedHoursController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -36,5 +37,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => '/clocktimes'], function () {
         Route::get('/{date}', GetWeeklyClockTimesController::class);
         Route::post('/', SetWeeklyClockTimesController::class);
+    });
+
+    Route::group(['prefix' => '/workedhours'], function () {
+        Route::get('/week/{date}', GetWeeklyWorkedHoursController::class);
     });
 });

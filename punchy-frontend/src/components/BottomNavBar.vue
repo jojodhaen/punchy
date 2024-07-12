@@ -15,7 +15,7 @@ import { useRouter } from 'vue-router'
       <OhVueIcon v-else color="#FFD0D0" name="md-home-outlined" scale="1.8" />
     </div>
 
-    <div class="bottom-navigation-button" @click="router.replace('/')">
+    <div class="bottom-navigation-button" @click="router.replace('/hours-overview')">
       <OhVueIcon color="#FFD0D0" name="fa-business-time" scale="1.9" />
     </div>
 

@@ -4,7 +4,7 @@ import CalendarDay from '@/components/CalendarDay.vue'
 import router from '@/router'
 import { useAuthStore } from '@/stores/auth'
 import VueDatePicker from '@vuepic/vue-datepicker'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const auth = useAuthStore()
 const user: User = auth.user ?? ({} as User)
@@ -41,7 +41,9 @@ async function getClockTimes() {
     })
 }
 
-getClockTimes()
+onMounted(() => {
+  getClockTimes()
+})
 </script>
 
 <template>

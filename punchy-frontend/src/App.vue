@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import BottomNavBar from '@/components/BottomNavBar.vue'
-import { RouterView, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import { RouterView } from 'vue-router'
+
+const auth = useAuthStore()
 
 function onTouchmove(e: TouchEvent) {
   // e.preventDefault()
@@ -10,12 +13,7 @@ function onTouchmove(e: TouchEvent) {
 <template>
   <div class="main-container" @touchmove="onTouchmove">
     <RouterView />
-    <BottomNavBar
-      v-if="
-        useRouter().currentRoute.value.name != 'Login' ||
-        useRouter().currentRoute.value.name != 'NewUser'
-      "
-    />
+    <BottomNavBar v-if="auth.authenticated" />
   </div>
 </template>
 

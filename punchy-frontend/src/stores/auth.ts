@@ -38,7 +38,7 @@ export const useAuthStore = defineStore('auth', () => {
       .then(() => {
         authenticated.value = false
         user.value = {} as User
-        router.push({ name: 'Login' })
+        router.replace({ name: 'Login' })
       })
       .catch((error) => {
         console.error(error)
@@ -51,7 +51,7 @@ export const useAuthStore = defineStore('auth', () => {
       .then((response) => {
         user.value = response.data
         authenticated.value = true
-        router.push({ name: 'Home' })
+        router.replace({ name: 'Home' })
       })
       .catch((error) => {
         console.error(error)

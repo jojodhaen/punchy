@@ -34,12 +34,4 @@ Route::get('/email/verified', function () {
     return view('auth.verify-email');
 })->name('verification.verified');
 
-Route::get('/test', function () {
-    return view('mail.signup', ['user' => App\Models\User::first()]);
-});
-
-Route::get('/test/2', function () {
-    return view('auth.verify-email');
-});
-
 require __DIR__.'/auth.php';

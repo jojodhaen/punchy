@@ -4,7 +4,6 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\ClockTimes\GetWeeklyClockTimesController;
 use App\Http\Controllers\API\ClockTimes\SetWeeklyClockTimesController;
 use App\Http\Controllers\API\WorkedHours\GetWeeklyWorkedHoursController;
-use App\Http\Controllers\API\WorkedHours\GetYearlyWorkedHoursController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['controller' => AuthController::class], function () {
@@ -28,4 +27,4 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     });
 });
 
-Route::get('/test/{year}', GetYearlyWorkedHoursController::class);
+//Route::get('/test/{year}', GetYearlyWorkedHoursController::class);

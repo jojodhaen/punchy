@@ -27,18 +27,21 @@ class GetWeeklyWorkedHoursController extends Controller
             $worked_minutes = Carbon::createFromFormat('H:i:s', $clocktime->start_time ?? '00:00:00')
                 ->diffInMinutes(Carbon::createFromFormat('H:i:s', $clocktime->end_time ?? '00:00:00'));
 
+
+            // TODO: Save the break minutes in the database, when the info is final
             if ($weekDate->isWeekend()) {
-                $break_minutes = 45;
+                $break_minutes = $worked_minutes >= 300 ? 45 : 30;
             } else {
-                $break_minutes = $worked_minutes >= 360 ? 60 : 30;
+                $break_minutes = $worked_minutes >= 300 ? 60 : 30;
             }
 
             return collect([
                 "date" => $clocktime->date,
                 "start_time" => $clocktime->start_time,
                 "end_time" => $clocktime->end_time,
-                "worked_hours" => Carbon::createFromFormat('H:i:s',
-                    '00:00:00')->addMinutes($worked_minutes)->format('H:i'),
+                "worked_hours" => Carbon::createFromFormat('H:i:s', '00:00:00')
+                    ->addMinutes($worked_minutes)
+                    ->format('H:i'),
                 "break_minutes" => $break_minutes,
             ]);
         });

@@ -1,39 +1,23 @@
 <?php
 
+use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\ClockTimes\GetWeeklyClockTimesController;
 use App\Http\Controllers\API\ClockTimes\SetWeeklyClockTimesController;
 use App\Http\Controllers\API\WorkedHours\GetWeeklyWorkedHoursController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\API\WorkedHours\GetYearlyWorkedHoursController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('web')->post('/login', function (Request $request) {
-    $credentials = $request->validate([
-        'email' => ['required', 'email'],
-        'password' => ['required'],
-    ]);
+Route::group(['controller' => AuthController::class], function () {
+    Route::post('/login', 'login');
+    Route::post('/register', 'register');
 
-    if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
-        return response()->json(['message' => 'Authenticated']);
-    }
-
-    return response()->json(['message' => 'Unauthenticated'], 401);
+    Route::group(['middleware' => 'auth:sanctum'], function () {
+        Route::post('/logout', 'logout');
+        Route::get('/user', 'getUser');
+    });
 });
 
-
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::post('/logout', function (Request $request) {
-        Auth::guard('web')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return response()->json(['message' => 'Logged out']);
-    });
-
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
-
     Route::group(['prefix' => '/clocktimes'], function () {
         Route::get('/{date}', GetWeeklyClockTimesController::class);
         Route::post('/', SetWeeklyClockTimesController::class);
@@ -43,3 +27,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/week/{date}', GetWeeklyWorkedHoursController::class);
     });
 });
+
+Route::get('/test/{year}', GetYearlyWorkedHoursController::class);

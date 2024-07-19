@@ -11,14 +11,12 @@ const password = ref('')
 
 const handleSubmit = (event: Event) => {
   event.preventDefault()
-  console.log('Email:', email.value)
-  console.log('Password:', password.value)
   auth.login(email.value, password.value)
 }
 
 const handleNoAccount = () => {
   console.log('No account?')
-  router.push('/new-user')
+  router.replace('/new-user')
 }
 </script>
 

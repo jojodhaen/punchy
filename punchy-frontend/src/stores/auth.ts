@@ -45,6 +45,22 @@ export const useAuthStore = defineStore('auth', () => {
       })
   }
 
+  async function register(firstName: string, lastName: string, email: string, password: string) {
+    await axiosInstance
+      .post('/api/register', {
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        password: password
+      })
+      .then(() => {
+        login(email, password)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
   async function getUser() {
     await axiosInstance
       .get('/api/user')
@@ -54,11 +70,10 @@ export const useAuthStore = defineStore('auth', () => {
         router.replace({ name: 'Home' })
       })
       .catch((error) => {
-        console.error(error)
         user.value = {} as User
         authenticated.value = false
       })
   }
 
-  return { authenticated, user, login, logout, getUser }
+  return { authenticated, user, login, logout, register, getUser }
 })

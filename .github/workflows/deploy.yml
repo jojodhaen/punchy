@@ -156,6 +156,7 @@ jobs:
             echo ${{ secrets.DB_DATABASE }} >> .env
             echo ${{ secrets.DB_USERNAME }} >> .env
             echo ${{ secrets.DB_PASSWORD }} >> .env
+            echo ${{ secrets.MAIL_PASSWORD }} >> .env
             php artisan key:generate --force
             php artisan migrate --force
             php artisan config:cache
@@ -166,3 +167,5 @@ jobs:
             php artisan route:clear
             php artisan view:clear
             php artisan optimize:clear
+            php artisan storage:link
+            php artisan queue:work

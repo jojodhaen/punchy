@@ -36,14 +36,23 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
-    public function clockTimes(): HasMany
+    protected static function boot(): void
     {
-        return $this->hasMany(ClockTime::class);
+        parent::boot();
+
+        static::created(function ($user) {
+            $user->settings()->create();
+        });
     }
 
     public function settings(): HasOne
     {
         return $this->hasOne(Settings::class);
+    }
+
+    public function clockTimes(): HasMany
+    {
+        return $this->hasMany(ClockTime::class);
     }
 
     /**

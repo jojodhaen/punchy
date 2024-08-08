@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import axiosInstance from '@/axiosInstance'
 import WeekdayClockTime from '@/components/WeekdayClockTime.vue'
-import VueDatePicker from '@vuepic/vue-datepicker'
+import WeekPicker from '@/components/WeekPicker.vue'
 import { ref } from 'vue'
 import '@vuepic/vue-datepicker/dist/main.css'
 
@@ -44,25 +44,10 @@ getClockTimes()
   <main>
     <h1>Werktijden</h1>
     <div class="divider"></div>
-    <div class="calendar-picker-container">
-      <VueDatePicker
-        v-model="startEndDate"
-        :clearable="false"
-        :enable-time-picker="false"
-        auto-apply
-        auto-close
-        cancelText="annuleren"
-        class="week-selector"
-        locale="nl-BE"
-        selectText="selecteren"
-        timezone="Europe/Brussels"
-        week-picker
-        @update:model-value="getClockTimes"
-      />
-      <div class="save-button">
-        <p>Opslaan</p>
-      </div>
+    <div class="week-picker-container">
+      <WeekPicker v-model="startEndDate" @update:model-value="getClockTimes" />
     </div>
+
     <div v-if="!loading" class="weekdays">
       <WeekdayClockTime v-for="day in weekDates" :day="day" />
     </div>
@@ -94,35 +79,6 @@ h1 {
   margin: 1rem;
 }
 
-.calendar-picker-container {
-  display: flex;
-  justify-content: space-between;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  margin-bottom: 1rem;
-  gap: 1rem;
-}
-
-.week-selector {
-  width: 150px;
-}
-
-.save-button {
-  flex-grow: 1;
-  border: 1px solid #a87676;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-
-  p {
-    padding: 0;
-    margin: auto 0;
-    font-family: 'Montserrat', serif;
-    font-weight: 400;
-  }
-}
-
 .weekdays {
   flex-grow: 1;
   display: flex;
@@ -143,5 +99,9 @@ h1 {
   --dp-menu-border-color: #a87676;
   --dp-hover-color: transparent;
   --dp-secondary-color: #ca8787;
+}
+
+.week-picker-container {
+  margin-left: 1rem;
 }
 </style>

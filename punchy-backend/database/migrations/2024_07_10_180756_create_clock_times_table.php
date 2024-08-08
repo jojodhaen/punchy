@@ -10,8 +10,8 @@ return new class extends Migration {
         Schema::create('clock_times', function (Blueprint $table) {
             $table->id();
 
-            $table->time('start_time')->nullable();
-            $table->time('end_time')->nullable();
+            $table->time('start_time')->default('00:00');
+            $table->time('end_time')->default('00:00');
             $table->date('date');
 
             $table->foreignId('user_id');

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import axiosInstance from '@/axiosInstance'
 import CalendarDay from '@/components/CalendarDay.vue'
+import WeekPicker from '@/components/WeekPicker.vue'
 import router from '@/router'
 import { useAuthStore } from '@/stores/auth'
-import VueDatePicker from '@vuepic/vue-datepicker'
 import { onMounted, ref } from 'vue'
 
 const auth = useAuthStore()
@@ -52,20 +52,21 @@ onMounted(() => {
     <div class="divider"></div>
     <h2>Weekoverzicht</h2>
     <div class="calendar-picker-container">
-      <VueDatePicker
-        v-model="startEndDate"
-        :clearable="false"
-        :enable-time-picker="false"
-        auto-apply
-        auto-close
-        cancelText="annuleren"
-        class="week-selector"
-        locale="nl-BE"
-        selectText="selecteren"
-        timezone="Europe/Brussels"
-        week-picker
-        @update:model-value="getClockTimes"
-      />
+      <!--      <VueDatePicker-->
+      <!--        v-model="startEndDate"-->
+      <!--        :clearable="false"-->
+      <!--        :enable-time-picker="false"-->
+      <!--        auto-apply-->
+      <!--        auto-close-->
+      <!--        cancelText="annuleren"-->
+      <!--        class="week-selector"-->
+      <!--        locale="nl-BE"-->
+      <!--        selectText="selecteren"-->
+      <!--        timezone="Europe/Brussels"-->
+      <!--        week-picker-->
+      <!--        @update:model-value="getClockTimes"-->
+      <!--      />-->
+      <WeekPicker v-model="startEndDate" @update:model-value="getClockTimes" />
       <div class="edit-button" @click="router.replace('edit-week')">
         <p>Aanpassen</p>
       </div>
@@ -123,10 +124,6 @@ h2 {
   margin-right: 1rem;
   margin-bottom: 1rem;
   gap: 0.5rem;
-}
-
-.week-selector {
-  width: 130px;
 }
 
 .edit-button {

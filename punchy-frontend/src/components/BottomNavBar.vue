@@ -15,7 +15,7 @@ import { useRouter } from 'vue-router'
       <OhVueIcon v-else color="#FFD0D0" name="md-home-outlined" scale="1.8" />
     </div>
 
-    <div class="bottom-navigation-button" @click="router.replace('/hours-overview')">
+    <div class="bottom-navigation-button" @click="router.replace('hours-overview')">
       <OhVueIcon color="#FFD0D0" name="fa-business-time" scale="1.9" />
     </div>
 
@@ -29,9 +29,9 @@ import { useRouter } from 'vue-router'
       <OhVueIcon v-else color="#FFD0D0" name="md-editcalendar-outlined" scale="1.7" />
     </div>
 
-    <div class="bottom-navigation-button" @click="router.replace('profile')">
+    <div class="bottom-navigation-button" @click="router.replace('settings')">
       <OhVueIcon
-        v-if="useRouter().currentRoute.value.name == 'Profile'"
+        v-if="useRouter().currentRoute.value.name == 'Settings'"
         color="#FFD0D0"
         name="md-accountcircle"
         scale="1.8"

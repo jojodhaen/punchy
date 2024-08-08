@@ -28,9 +28,14 @@ class GetWeeklyWorkedHoursController extends Controller
                 ->diffInMinutes(Carbon::createFromFormat('H:i:s', $clocktime->end_time ?? '00:00:00'));
 
 
-            // TODO: Save the break minutes in the database, when the info is final
-            if ($weekDate->isWeekend()) {
-                $break_minutes = $worked_minutes >= 300 ? 45 : 30;
+            if ($weekDate->isWeekend() && Auth::user()->settings()->min_break_hours_weekend) {
+                if (Auth::user()->settings()->max_break_turnover_hours_weekend) {
+                    $break_minutes = $worked_minutes >= Auth::user()->settings()->max_break_turnover_hours_weekend * 60
+                        ? Auth::user()->settings()->max_break_hours_weekend
+                        : Auth::user()->settings()->min_break_hours_weekend;
+                } else {
+                    $break_minutes = Auth::user()->settings()->min_break_hours_weekend;
+                }
             } else {
                 $break_minutes = $worked_minutes >= 300 ? 60 : 30;
             }

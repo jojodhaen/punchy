@@ -42,13 +42,9 @@ class AuthController extends Controller
             'password' => ['required', 'string', 'min:8'],
         ]);
 
-        $user = User::create([
-            'first_name' => $credentials['first_name'],
-            'last_name' => $credentials['last_name'],
-            'email' => $credentials['email'],
-            'password' => bcrypt($credentials['password']),
-        ]);
+        $user = User::create($credentials);
 
+        // trigger email verification
         event(new Registered($user));
 
         return response()->json(['message' => 'User created'], 201);

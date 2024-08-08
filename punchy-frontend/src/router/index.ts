@@ -1,6 +1,7 @@
 import { useAuthStore } from '@/stores/auth'
 import EditWeekView from '@/views/authenticated/EditWeekView.vue'
 import HoursOverviewView from '@/views/authenticated/HoursOverviewView.vue'
+import SettingsView from '@/views/authenticated/SettingsView.vue'
 import LoginView from '@/views/unauthenticated/LoginView.vue'
 import NewUserView from '@/views/unauthenticated/NewUserView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -45,6 +46,14 @@ const router = createRouter({
       path: '/edit-week',
       name: 'EditWeek',
       component: EditWeekView,
+      meta: {
+        needsAuth: true
+      }
+    },
+    {
+      path: '/settings',
+      name: 'Settings',
+      component: SettingsView,
       meta: {
         needsAuth: true
       }

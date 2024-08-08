@@ -10,16 +10,16 @@ return new class extends Migration {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
 
-            $table->integer('weekly_hours');
-            $table->integer('min_break_hours');
-            $table->integer('max_break_hours')->nullable();
-            $table->integer('max_break_turnover_hours')->nullable();
-            $table->integer('min_break_hours_weekend');
-            $table->integer('max_break_hours_weekend')->nullable();
-            $table->integer('max_break_turnover_hours_weekend')->nullable();
+            $table->double('weekly_hours')->default(30);
+            $table->double('min_break_hours')->default(0.5);
+            $table->double('max_break_hours')->nullable();
+            $table->double('max_break_turnover_hours')->nullable();
+            $table->double('min_break_hours_weekend')->nullable();
+            $table->double('max_break_hours_weekend')->nullable();
+            $table->double('max_break_turnover_hours_weekend')->nullable();
 
             $table->foreignId('user_id');
-            
+
             $table->timestamps();
         });
     }
